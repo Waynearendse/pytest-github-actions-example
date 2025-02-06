@@ -25,7 +25,7 @@ def test_calculate_area_square_negative():
 def test_calculate_area_square_string():
     # Check if the function raises a TypeError when called with a string length
     with pytest.raises(TypeError):
-        calculate_area_square(2)
+        calculate_area_square("2")
 
 # Define a test function to test the calculate_area_square function with a list input
 def test_calculate_area_square_list():
