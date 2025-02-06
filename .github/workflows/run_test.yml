@@ -1,33 +1,37 @@
-name: Run Unit Test via Pytest
+name: Run Unit Test via Pytest  # Name of the GitHub Actions workflow
 
-on: [push]
+on: [push]  # Trigger the workflow on push events
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Specify the environment to run the job
     strategy:
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.10"]  # Define the Python version to be used
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3  # Check out the repository code
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4  # Set up the specified Python version
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python-version }}  # Use the Python version from the matrix
+
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python -m pip install --upgrade pip  # Upgrade pip to the latest version
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi  # Install dependencies if requirements.txt exists
+
       - name: Lint with Ruff
         run: |
-          pip install ruff
-          ruff --format=github --target-version=py310 .
-        continue-on-error: true
+          pip install ruff  # Install Ruff linter
+          ruff --format=github --target-version=py310 .  # Run Ruff linter with GitHub formatting and target Python 3.10
+        continue-on-error: true  # Continue even if the linter finds issues
+
       - name: Test with pytest
         run: |
-          coverage run -m pytest  -v -s
+          coverage run -m pytest -v -s  # Run tests with pytest, collect coverage data, and use verbose and show output options
+
       - name: Generate Coverage Report
         run: |
-          coverage report -m
-      
+          coverage report -m  # Generate a coverage report with missing line numbers
